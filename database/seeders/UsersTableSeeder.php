@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Store;
+use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,6 +15,8 @@ class UsersTableSeeder extends Seeder
      */ 
     public function run()
     {
-        User::factory()->count(40)->create();
+        User::factory()->count(40)->create()->each(function ($user) {
+            $user->store()->save(Store::factory()->make());
+        });
     }
 }
