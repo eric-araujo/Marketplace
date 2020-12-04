@@ -33,4 +33,21 @@ class StoreController extends Controller
 
         return $store;
     }
+
+    public function edit($store)
+    {
+        $store = Store::find($store);
+
+        return view('admin.stores.edit', compact('store'));
+    }
+
+    public function update(Request $request, $store)
+    {
+        $data = $request->all();
+
+        $store = Store::find($store);
+        $store->update($data);
+
+        return $store;
+    }
 }
