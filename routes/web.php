@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +18,6 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::post('/update/{store}', [StoreController::class, 'update'])->name('update');;
         Route::get('/destroy/{store}', [StoreController::class, 'destroy'])->name('destroy');;
     });
+
+    Route::resource('products', ProductController::class);
 });
