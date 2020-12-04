@@ -8,6 +8,7 @@
             <th>#</th>
             <th>Nome</th>
             <th>Preço</th>
+            <th>Loja</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -17,6 +18,7 @@
                 <th>{{$product->id}}</th>
                 <th>{{$product->name}}</th>
                 <th>R$ {{number_format($product->price, 2, ',', '.')}}</th>
+                <th>{{$product->store->name}}</th>
                 <th>
                     <div class="btn-group">
                         <a href="{{route('admin.products.edit', ['product' => $product->id])}}" class="btn btn-sm btn-primary">EDITAR</a>
