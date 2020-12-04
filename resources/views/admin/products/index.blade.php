@@ -16,10 +16,16 @@
             <tr>
                 <th>{{$product->id}}</th>
                 <th>{{$product->name}}</th>
-                <th>{{$product->price}}</th>
+                <th>R$ {{number_format($product->price, 2, ',', '.')}}</th>
                 <th>
-                    <a href="{{route('admin.products.edit', ['product' => $product->id])}}" class="btn btn-sm btn-primary">EDITAR</a>
-                    <a href="{{route('admin.products.destroy', ['product' => $product->id])}}" class="btn btn-sm btn-danger">REMOVER</a>
+                    <div class="btn-group">
+                        <a href="{{route('admin.products.edit', ['product' => $product->id])}}" class="btn btn-sm btn-primary">EDITAR</a>
+                        <form action="{{route('admin.products.destroy', ['product' => $product->id])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">REMOVER</button>
+                        </form>
+                    </div>
                 </th>
             </tr>
         @endforeach

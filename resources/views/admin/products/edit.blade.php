@@ -4,6 +4,7 @@
 <h1>Criar Produto</h1>
 <form action="{{route('admin.products.update', ['product' => $product->id])}}" method="POST">
     @csrf
+    @method('PUT')
     <div class="form-group">
         <label>Nome do Produto</label>
         <input type="text" class="form-control" name="name" value="{{$product->name}}">
