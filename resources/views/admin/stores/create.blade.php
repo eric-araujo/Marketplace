@@ -6,23 +6,48 @@
         @csrf
         <div class="form-group">
             <label>Nome da Loja</label>
-            <input type="text" class="form-control" name="name">
+            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name">
+            
+            @error('name')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
+
         </div>
         <div class="form-group">
             <label>Descrição</label>
-            <input type="text" class="form-control" name="description">
+            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description">
+
+            @error('description')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" class="form-control" name="phone">
+            <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone">
+
+            @error('phone')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Celular/Whatsapp</label>
-            <input type="text" class="form-control" name="mobile_phone">
+            <input type="text" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone">
+            
+            @error('mobile_phone')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Slug</label>
-            <input type="text" class="form-control" name="slug">
+            <input type="text" class="form-control @error('slug') is-invalid @enderror" name="slug">
         </div>
         <div>
             <button class="btn btn-lg btn-success" type="submit">Criar Loja</button>
