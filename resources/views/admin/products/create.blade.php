@@ -45,7 +45,7 @@
             </div>
             @enderror
         </div>
-        <div class="form-gro">
+        <div class="form-group">
             <label>Categorias</label>
             <select name="categories[]" id="" class="form-control" multiple>
                 @foreach ($categories as $category)
