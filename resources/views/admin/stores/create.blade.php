@@ -6,7 +6,7 @@
         @csrf
         <div class="form-group">
             <label>Nome da Loja</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name">
+            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{old('name')}}">
             
             @error('name')
                 <div class="invalid-feedback">
@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <label>Descrição</label>
-            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description">
+            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{old('description')}}">
 
             @error('description')
                 <div class="invalid-feedback">
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone">
+            <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{old('phone')}}">
 
             @error('phone')
                 <div class="invalid-feedback">
@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <label>Celular/Whatsapp</label>
-            <input type="text" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone">
+            <input type="text" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone" value="{{old('mobile_phone')}}">
             
             @error('mobile_phone')
                 <div class="invalid-feedback">
@@ -47,7 +47,7 @@
         </div>
         <div class="form-group">
             <label>Slug</label>
-            <input type="text" class="form-control @error('slug') is-invalid @enderror" name="slug">
+            <input type="text" class="form-control" name="slug" value="{{old('slug')}}">
         </div>
         <div>
             <button class="btn btn-lg btn-success" type="submit">Criar Loja</button>
