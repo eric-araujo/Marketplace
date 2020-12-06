@@ -11,6 +11,13 @@ use App\Models\User;
 
 class StoreController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('user.has.store')->only(['create', 'store']);
+        $this->middleware('route.not.found')->only(['show']);
+    }
+
     public function index()
     {
         $store = auth()->user()->store;
@@ -20,11 +27,6 @@ class StoreController extends Controller
 
     public function create()
     {
-
-        if(auth()->user()->count()){
-            flash('Você já possuí uma loja!')->warning();
-            return redirect()->route('admin.stores.index');
-        }
 
         $users = User::all(['id', 'name']);
 
