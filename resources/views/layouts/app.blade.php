@@ -13,7 +13,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+        @auth
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
             <li class="nav-item @if(request()->is('admin/stores')) active @endif">
@@ -26,6 +26,9 @@
             <div class="my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <span class="nav-link">{{auth()->user()->name}}</span>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.querySelector('form.logout').submit();">Sair</a>
 
                         <form action="{{route('logout')}}" class="logout" method="POST" style="display: none;">
@@ -35,6 +38,7 @@
                 </ul>
             </div>
         </div>
+        @endauth
     </nav>
     <div class="container">
         @include('flash::message')
