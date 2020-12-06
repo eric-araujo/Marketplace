@@ -1,25 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Criar Loja</h1>
+    <h1>Editar Loja</h1>
     <form action="{{route('admin.stores.update', ['store' => $store->id])}}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
             <label>Nome da Loja</label>
-            <input type="text" class="form-control" name="name" value="{{$store->name}}">
+            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$store->name}}">
+            
+            @error('name')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
+
         </div>
         <div class="form-group">
             <label>Descrição</label>
-            <input type="text" class="form-control" name="description" value="{{$store->description}}">
+            <input type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{$store->description}}">
+
+            @error('description')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" class="form-control" name="phone" value="{{$store->phone}}">
+            <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$store->phone}}">
+
+            @error('phone')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Celular/Whatsapp</label>
-            <input type="text" class="form-control" name="mobile_phone" value="{{$store->mobile_phone}}">
+            <input type="text" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone" value="{{$store->mobile_phone}}">
+            
+            @error('mobile_phone')
+                <div class="invalid-feedback">
+                   {{$message}}
+                </div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Slug</label>
