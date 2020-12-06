@@ -1,32 +1,58 @@
 @extends('layouts.app')
 
+
 @section('content')
-<h1>Criar Produto</h1>
-<form action="{{route('admin.products.update', ['product' => $product->id])}}" method="POST">
-    @csrf
-    @method('PUT')
-    <div class="form-group">
-        <label>Nome do Produto</label>
-        <input type="text" class="form-control" name="name" value="{{$product->name}}">
-    </div>
-    <div class="form-group">
-        <label>Descrição</label>
-        <input type="text" class="form-control" name="description" value="{{$product->description}}">
-    </div>
-    <div class="form-group">
-        <label>Conteúdo</label>
-        <textarea class="form-control" name="body" cols="30" rows="10">{{$product->body}}</textarea>
-    </div>
-    <div class="form-group">
-        <label>Preço</label>
-        <input type="text" class="form-control" name="price" value="{{$product->price}}">
-    </div>
-    <div class="form-group">
-        <label>Slug</label>
-        <input type="text" class="form-control" name="slug" value="{{$product->slug}}">
-    </div>
-    <div>
-        <button class="btn btn-lg btn-success" type="submit">Editar Produto</button>
-    </div>
-</form>
+    <h1>Editar Produto</h1>
+
+    <form action="{{route('admin.products.update', ['product' => $product->id])}}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label>Nome Produto</label>
+            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$product->name}}">
+
+            @error('name')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" name="description" class="form-control @error('description') is-invalid @enderror" value="{{$product->description}}">
+
+            @error('description')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Conteúdo</label>
+            <textarea name="body" id="" cols="30" rows="10" class="form-control @error('body') is-invalid @enderror">{{$product->body}}</textarea>
+
+            @error('body')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Preço</label>
+            <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{$product->price}}">
+
+            @error('price')
+            <div class="invalid-feedback">
+                {{$message}}
+            </div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Slug</label>
+            <input type="text" name="slug" class="form-control" value="{{$product->slug}}">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-lg btn-success">Editar Produto</button>
+        </div>
+    </form>
 @endsection
