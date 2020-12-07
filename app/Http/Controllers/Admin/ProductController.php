@@ -56,7 +56,6 @@ class ProductController extends Controller
 
         $store = auth()->user()->store;
         $product = $store->products()->create($data);
-
         $product->categories()->sync($data['categories']);
 
         if($request->hasFile('photos')){
@@ -96,8 +95,13 @@ class ProductController extends Controller
 
         $product = $this->product->find($product);
         $product->update($data);
-
         $product->categories()->sync($data['categories']);
+
+        if($request->hasFile('photos')){
+            $images = $this->imageUpload($request, 'image');
+
+            $product->photos()->createMany($images);
+        }
 
         flash('Produto Editado com Sucesso!')->success();
         return redirect()->route('admin.products.index');
