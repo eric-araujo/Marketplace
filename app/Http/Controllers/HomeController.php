@@ -22,4 +22,11 @@ class HomeController extends Controller
 
         return view('welcome', compact('products'));
     }
+
+    public function sigle($slug)
+    {
+        $product = $this->product->whereSlug($slug)->first();
+
+        return view('sigle', compact('product'));
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductPhotoController;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
 
 Route::group(['middleware' => ['auth']], function(){
     Route::prefix('admin')->name('admin.')->group(function() {
