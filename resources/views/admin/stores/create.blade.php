@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Criar Loja</h1>
-    <form action="{{route('admin.stores.store')}}" method="POST">
+    <form action="{{route('admin.stores.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label>Nome da Loja</label>
@@ -44,6 +44,10 @@
                    {{$message}}
                 </div>
             @enderror
+        </div>
+        <div class="form-group">
+            <label>Logo</label>
+            <input type="file" name="logo" class="form-control">
         </div>
         <div class="form-group">
             <label>Slug</label>
