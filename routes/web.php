@@ -17,6 +17,7 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('add', [CartController::class, 'add'])->name('add');
     Route::get('remove/{slug}', [CartController::class, 'remove'])->name('remove');
+    Route::get('cancel', [CartController::class, 'cancel'])->name('cancel');
 });
 
 Route::group(['middleware' => ['auth']], function(){
