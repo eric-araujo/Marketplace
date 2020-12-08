@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductPhotoController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
@@ -18,6 +19,10 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::post('add', [CartController::class, 'add'])->name('add');
     Route::get('remove/{slug}', [CartController::class, 'remove'])->name('remove');
     Route::get('cancel', [CartController::class, 'cancel'])->name('cancel');
+});
+
+Route::prefix('checkout')->name('checkout.')->group(function(){
+    Route::get('/', [CheckoutController::class, 'index'])->name('index');
 });
 
 Route::group(['middleware' => ['auth']], function(){
