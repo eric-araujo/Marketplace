@@ -8,9 +8,15 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductPhotoController;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
+
+Route::prefix('cart')->name('cart.')->group(function(){
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('add', [CartController::class, 'add'])->name('add');
+});
 
 Route::group(['middleware' => ['auth']], function(){
     Route::prefix('admin')->name('admin.')->group(function() {
