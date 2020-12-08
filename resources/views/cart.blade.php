@@ -4,7 +4,6 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Carrinho de Compras</h2>
-            <hr>
         </div>
         <div class="col-md-12">
             @if ($cart)

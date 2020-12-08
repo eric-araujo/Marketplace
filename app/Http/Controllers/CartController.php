@@ -19,7 +19,17 @@ class CartController extends Controller
         $product = $request->get('product');
 
         if (session()->has('cart')) {
-            session()->push('cart', $product);
+
+            $products = session()->get('cart');
+            $productsSlug = array_column($products, 'slug');
+
+            if (in_array($product['slug'], $productsSlug)) {
+                $products = $this->productIncrement($product['slug'], $product['amount'], $products);
+                session()->put('cart', $products);
+            } else {
+                session()->push('cart', $product);
+            }
+
         } else {
             $products[] = $product;
 
@@ -52,5 +62,17 @@ class CartController extends Controller
 
         flash('Desistência da compra realizada com sucesso!')->success();
         return redirect()->route('cart.index');
+    }
+
+    private function productIncrement($slug, $amount, $products)
+    {
+        $products = array_map(function ($line) use ($slug, $amount) {
+            if ($slug == $line['slug']) {
+                $line['amount'] += $amount;
+            }
+            return $line;
+        }, $products);
+
+        return $products;
     }
 }
