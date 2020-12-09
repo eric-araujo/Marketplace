@@ -12,6 +12,12 @@
             <form action="" method="POST">
                 <div class="row">
                     <div class="col-md-12 form-group">
+                        <label>Nome no Cartão</label>
+                        <input type="text" class="form-control" name="card_name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
                         <label>Número do Cartão <span class="brand"></span></label>
                         <input type="text" class="form-control" name="card_number">
                         <input type="hidden" name="card_brand">
@@ -49,6 +55,7 @@
         PagSeguroDirectPayment.setSessionId(sessionId);
     </script>
     <script>
+        let amountTransaction = '{{$total}}';
         let cardNumber = document.querySelector('input[name=card_number]');
         let spanBrand = document.querySelector('span.brand');
         cardNumber.addEventListener('keyup', () => {
@@ -59,7 +66,8 @@
                         let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${response.brand.name}.png">`;
                         spanBrand.innerHTML = imgFlag;
                         document.querySelector('input[name=card_brand]').value = response.brand.name;
-                        getInstallments(40, response.brand.name);
+                        
+                        getInstallments(amountTransaction, response.brand.name);
                     },
                     error: (error) => {
                         console.error(error);
@@ -94,6 +102,7 @@
                 card_token: token,
                 hash: PagSeguroDirectPayment.getSenderHash(),
                 installment: document.querySelector('select.select_installment').value,
+                card_name:  document.querySelector('input[name=card_name]').value,
                 _token: '{{csrf_token()}}'
             }
 

@@ -14,7 +14,15 @@ class CheckoutController extends Controller
 
         $this->makePagSeguroSession();
 
-        return view('checkout');
+        $total = 0;
+
+        $cartItems = array_map(function($line){
+            return $line['amount'] * $line['price'];
+        }, session()->get('cart'));
+
+        $total = array_sum($cartItems);
+
+        return view('checkout', compact('total'));
     }
 
     public function proccess(Request $request)
@@ -38,11 +46,11 @@ class CheckoutController extends Controller
                 $item['price'],
             );   
         }
+        
+        $user = auth()->user();
+        $email = env('PAGSEGURO_ENV') == 'sandbox' ? 'test@sandbox.pagseguro.com.br' : $user->email;
 
-        $user = auth->user();
-        $email = env('PAGSEGURO_ENV' == 'sandbox' ? 'test@sandbox.pagseguro.comb.br' : $user->email);
-
-        $creditCard->setSender()->setName($user->name);
+        $creditCard->setSender()->setName($dataPost['card_name']);
         $creditCard->setSender()->setEmail($email);
         $creditCard->setSender()->setPhone()->withParameters(
             11,
@@ -83,6 +91,8 @@ class CheckoutController extends Controller
         $creditCard->setToken($dataPost['card_token']);
 
         list($quantity, $installmentAmount) = explode('|', $dataPost['installment']);
+
+        $installmentAmount = number_format($installmentAmount, 2, '.', '');
 
         $creditCard->setInstallment()->withParameters($quantity, $installmentAmount);
 
