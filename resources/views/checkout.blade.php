@@ -66,7 +66,7 @@
                         let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${response.brand.name}.png">`;
                         spanBrand.innerHTML = imgFlag;
                         document.querySelector('input[name=card_brand]').value = response.brand.name;
-                        
+
                         getInstallments(amountTransaction, response.brand.name);
                     },
                     error: (error) => {
@@ -112,7 +112,7 @@
                 data: data,
                 dataType: 'json',
                 success: (response) => {
-                    console.log(response);
+                    alert(response.data.message);
                 }
             });
         }
