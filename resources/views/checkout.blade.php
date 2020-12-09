@@ -42,6 +42,7 @@
 
 @section('scripts')
     <script src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+    <script src="{{asset('assets/js/jquery.ajax.js')}}"></script>
     <script>
         const sessionId = '{{session()->get('pagseguro_session_code')}}';
 
@@ -82,10 +83,30 @@
                 expirationMonth: document.querySelector('input[name=card_month]').value,
                 expirationYear: document.querySelector('input[name=card_year]').value,
                 success: (response) => {
-                    console.log(response);
+                    processPayment(response.card.token);
                 }
             });
         });
+
+        function processPayment(token)
+        {
+            let data = {
+                card_token: token,
+                hash: PagSeguroDirectPayment.getSenderHash(),
+                installment: document.querySelector('select.select_installment').value,
+                _token: '{{csrf_token()}}'
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route("checkout.proccess")}}',
+                data: data,
+                dataType: 'json',
+                success: (response) => {
+                    console.log(response);
+                }
+            });
+        }
 
         function getInstallments(amount, brand) {
             PagSeguroDirectPayment.getInstallments({
@@ -110,7 +131,7 @@
 
             let select = '<label>Opções de Parcelamento:</label>';
 
-            select += '<select class="form-control">';
+            select += '<select class="form-control select_installment">';
 
             for(let installment of installments) {
                 select += `<option value="${installment.quantity}|${installment.installmentAmount}">${installment.quantity}x de ${installment.installmentAmount} - Total fica ${installment.totalAmount}</option>`;

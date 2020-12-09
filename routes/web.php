@@ -23,6 +23,7 @@ Route::prefix('cart')->name('cart.')->group(function(){
 
 Route::prefix('checkout')->name('checkout.')->group(function(){
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
+    Route::post('/proccess', [CheckoutController::class, 'proccess'])->name('proccess');
 });
 
 Route::group(['middleware' => ['auth']], function(){
