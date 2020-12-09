@@ -14,6 +14,7 @@
                     <div class="col-md-12 form-group">
                         <label>Número do Cartão <span class="brand"></span></label>
                         <input type="text" class="form-control" name="card_number">
+                        <input type="hidden" name="card_brand">
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +34,7 @@
                     </div>
                     <div class="col-md-12 installments form-group"></div>
                 </div>
-                <button class="btn btn-success btn-lg">Efetuar Pagamento</button>
+                <button class="btn btn-success btn-lg processCheckout">Efetuar Pagamento</button>
             </form>
         </div>
     </div>
@@ -56,7 +57,7 @@
                     success: (response) => {
                         let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${response.brand.name}.png">`;
                         spanBrand.innerHTML = imgFlag;
-
+                        document.querySelector('input[name=card_brand]').value = response.brand.name;
                         getInstallments(40, response.brand.name);
                     },
                     error: (error) => {
@@ -67,6 +68,23 @@
                     }
                 });
             }
+        });
+
+        let submitButton = document.querySelector('button.processCheckout');
+
+        submitButton.addEventListener('click', () => {
+            event.preventDefault();
+
+            PagSeguroDirectPayment.createCardToken({
+                cardNumber: document.querySelector('input[name=card_number]').value,
+                brand: document.querySelector('input[name=card_brand]').value,
+                cvv: document.querySelector('input[name=card_cvv]').value,
+                expirationMonth: document.querySelector('input[name=card_month]').value,
+                expirationYear: document.querySelector('input[name=card_year]').value,
+                success: (response) => {
+                    console.log(response);
+                }
+            });
         });
 
         function getInstallments(amount, brand) {
