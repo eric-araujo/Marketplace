@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Payment\PagSeguro\CreditCard;
+use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
@@ -17,7 +17,7 @@ class CheckoutController extends Controller
 
         $total = 0;
 
-        $cartItems = array_map(function($line){
+        $cartItems = array_map(function ($line) {
             return $line['amount'] * $line['price'];
         }, session()->get('cart'));
 
@@ -28,30 +28,49 @@ class CheckoutController extends Controller
 
     public function proccess(Request $request)
     {
-        $dataPost = $request->all();
-        $user = auth()->user();
-        $cartItems = session()->get('cart');
-        $reference = 'XPTO';
+        try {
+            $dataPost = $request->all();
+            $user = auth()->user();
+            $cartItems = session()->get('cart');
+            $reference = 'XPTO';
 
-        $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference);
-        $result = $creditCardPayment->doPayment();
+            $creditCardPayment = new CreditCard($cartItems, $user, $dataPost, $reference);
+            $result = $creditCardPayment->doPayment();
 
-        $userOrder = [
-            'reference' => $reference,
-            'pagseguro_code' => $result->getCode(),
-            'pagseguro_status' => $result->getStatus(),
-            'items' => serialize($cartItems),
-            'store_id' => 30
-        ];
+            $userOrder = [
+                'reference' => $reference,
+                'pagseguro_code' => $result->getCode(),
+                'pagseguro_status' => $result->getStatus(),
+                'items' => serialize($cartItems),
+                'store_id' => 30,
+            ];
 
-        $user->orders()->create($userOrder);
+            $user->orders()->create($userOrder);
 
-        return response()->json([
-            'data' => [
-                'status' => true,
-                'message' => 'Pedido criado com sucesso!'
-            ]
-        ]);
+            session()->forget('cart');
+            session()->forget('pagseguro_session_code');
+
+            return response()->json([
+                'data' => [
+                    'status' => true,
+                    'message' => 'Pedido criado com sucesso!',
+                    'order' => $reference
+                ],
+            ]);
+        } catch (\Throwable $th) {
+            $message = env('APP_DEBUG') ? $th->getMessage() : 'Erro ao processar pedido!';
+            return response()->json([
+                'data' => [
+                    'status' => false,
+                    'message' => $message,
+                ],
+            ], 401);
+        }
+    }
+
+    public function thanks()
+    {
+        return view('thanks');
     }
 
     private function makePagSeguroSession()
