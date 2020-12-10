@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Http\Views\CategoryViewComposer;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
