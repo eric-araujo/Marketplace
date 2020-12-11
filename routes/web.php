@@ -14,6 +14,7 @@ use App\Http\Controllers\CheckoutController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
 Route::get('/category/{slug}', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.sigle');
+Route::get('/store/{slug}', [App\Http\Controllers\StoreController::class, 'index'])->name('store.sigle');
 
 Route::prefix('cart')->name('cart.')->group(function(){
     Route::get('/', [CartController::class, 'index'])->name('index');
