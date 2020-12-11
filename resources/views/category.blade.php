@@ -2,7 +2,11 @@
 
 @section('content')
     <div class="row mb-3">
-        @foreach ($products as $key => $product)
+        <div class="col-md-12">
+            <h2>{{$category->name}}</h2>
+            <hr>
+        </div>
+        @forelse ($category->products as $key => $product)
             <div class="col-md-4">
                 <div class="card" style="width: 98%; height:100%;">
                     
@@ -27,23 +31,10 @@
                 </div>
                 <div class="row mb-3">
             @endif
-        @endforeach
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Lojas em Destaque</h2>
-            <hr>
-        </div>
-        @foreach ($stores as $store)
-            <div class="col-md-4">
-                @if ($store->logo)
-                    <img src="{{asset('storage/' . $store->logo)}}" alt="Logo da loja {{$store->name}}" class="img-fluid">
-                @else
-                    <img src="https://via.placeholder.com/600X300.png?text=logo" alt="A loja {{$store->name}} não tem logo" class="img-fluid">
-                @endif
-                <h3>{{$store->name}}</h3>
-                <p>{{$store->description}}</p>
+        @empty
+            <div class="col-md-12">
+                <h5 class="alert alert-warning">Nenhum produto encontrado para esta categoria!</h5>
             </div>
-        @endforeach
+        @endforelse
     </div>
 @endsection

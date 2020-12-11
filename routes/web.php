@@ -13,6 +13,7 @@ use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
+Route::get('/category/{slug}', [App\Http\Controllers\CategoryController::class, 'index'])->name('category.sigle');
 
 Route::prefix('cart')->name('cart.')->group(function(){
     Route::get('/', [CartController::class, 'index'])->name('index');
