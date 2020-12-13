@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductPhotoController;
+use App\Http\Controllers\Admin\OrdersController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
@@ -36,6 +37,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::resource('categories', CategoryController::class);
 
         Route::post('photos/remove', [ProductPhotoController::class, 'removePhoto'])->name('photo.remove');
+
+        Route::get('orders/my', [OrdersController::class, 'index']);
     });
 });
 

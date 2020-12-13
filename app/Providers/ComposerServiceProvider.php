@@ -23,6 +23,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', 'App\Http\Views\CategoryViewComposer@compose');
+        view()->composer('layouts.front-user', 'App\Http\Views\CategoryViewComposer@compose');
     }
 }
