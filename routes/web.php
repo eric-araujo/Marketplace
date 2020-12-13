@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\UserOrderController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [HomeController::class, 'sigle'])->name('product.sigle');
@@ -31,6 +32,8 @@ Route::prefix('checkout')->name('checkout.')->group(function(){
 });
 
 Route::group(['middleware' => ['auth']], function(){
+    Route::get('my-orders', [UserOrderController::class, 'index'])->name('user.orders');
+    
     Route::prefix('admin')->name('admin.')->group(function() {
         Route::resource('stores', StoreController::class);
         Route::resource('products', ProductController::class);
