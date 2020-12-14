@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('notifications', [NotificationController::class, 'notification'])->name('notifications.index');
         Route::get('notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read.all');
+        Route::get('notifications/read/{notification}', [NotificationController::class, 'read'])->name('notifications.read');
 
         Route::resource('stores', StoreController::class);
         Route::resource('products', ProductController::class);
