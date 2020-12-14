@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductPhotoController;
 use App\Http\Controllers\Admin\OrdersController;
+use App\Http\Controllers\Admin\NotificationController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
@@ -35,6 +36,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('my-orders', [UserOrderController::class, 'index'])->name('user.orders');
     
     Route::prefix('admin')->name('admin.')->group(function() {
+        Route::get('notifications', [NotificationController::class, 'notification'])->name('notifications.index');
+        Route::get('notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read.all');
+
         Route::resource('stores', StoreController::class);
         Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
