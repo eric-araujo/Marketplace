@@ -22,7 +22,7 @@ class CartController extends Controller
 
         $product = Product::whereSlug($productData['slug']);
         
-        if(!$product->count() || $productData['amount'] == 0){
+        if(!$product->count() || $productData['amount'] <= 0){
             flash('Falha ao adicionar produto no carrinho de compras')->warning();
             return redirect()->route('home');
         }

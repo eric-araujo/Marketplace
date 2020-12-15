@@ -56,8 +56,8 @@ class CheckoutController extends Controller
             
             $store = (new Store())->notifyStoreOwners($stores);
 
-            //session()->forget('cart');
-            //session()->forget('pagseguro_session_code');
+            session()->forget('cart');
+            session()->forget('pagseguro_session_code');
 
             return response()->json([
                 'data' => [

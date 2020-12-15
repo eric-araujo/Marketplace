@@ -116,7 +116,7 @@
                 data: data,
                 dataType: 'json',
                 success: (response) => {
-                   toastr.success(response.data.message, 'Sucesso')
+                   //toastr.success(response.data.message, 'Sucesso')
                    window.location.href = '{{route('checkout.thanks')}}?order=' + response.data.order;
                 }
             });
