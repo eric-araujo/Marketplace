@@ -10,13 +10,11 @@ use App\Models\Product;
 use App\Models\Category;
 
 use App\Traits\UploadTrait;
-use App\Traits\FormatMoney;
 
 class ProductController extends Controller
 {
 
     use UploadTrait;
-    use FormatMoney;
 
     private $product;
 
@@ -67,7 +65,7 @@ class ProductController extends Controller
 
         $data = $request->all();
               
-        $data['price'] = $this->formatMoney($data['price']);
+        $data['price'] = formatPriceToDatabase($data['price']);
 
         $categories = $request->get('categories', null);
 
@@ -111,7 +109,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
         
-        $data['price'] = $this->formatMoney($data['price']);
+        $data['price'] = formatPriceToDatabase($data['price']);
         
         $categories = $request->get('categories', null);
 
