@@ -55,105 +55,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         const sessionId = '{{session()->get('pagseguro_session_code')}}';
+        const urlThanks = '{{route('checkout.thanks')}}';
+        const urlProccess = '{{route('checkout.proccess')}}';
+        const csrf = '{{csrf_token()}}';
+        const amountTransaction = '{{$total}}';   
 
         PagSeguroDirectPayment.setSessionId(sessionId);
     </script>
-    <script>
-        let amountTransaction = '{{$total}}';
-        let cardNumber = document.querySelector('input[name=card_number]');
-        let spanBrand = document.querySelector('span.brand');
-        cardNumber.addEventListener('keyup', () => {
-            if(cardNumber.value.length >= 6){
-                PagSeguroDirectPayment.getBrand({
-                    cardBin: cardNumber.value.substr(0, 6),
-                    success: (response) => {
-                        let imgFlag = `<img src="https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/${response.brand.name}.png">`;
-                        spanBrand.innerHTML = imgFlag;
-                        document.querySelector('input[name=card_brand]').value = response.brand.name;
-
-                        getInstallments(amountTransaction, response.brand.name);
-                    },
-                    error: (error) => {
-                        console.error(error);
-                    },
-                    complete: (response) => {
-                    
-                    }
-                });
-            }
-        });
-
-        let submitButton = document.querySelector('button.processCheckout');
-
-        submitButton.addEventListener('click', () => {
-            event.preventDefault();
-
-            PagSeguroDirectPayment.createCardToken({
-                cardNumber: document.querySelector('input[name=card_number]').value,
-                brand: document.querySelector('input[name=card_brand]').value,
-                cvv: document.querySelector('input[name=card_cvv]').value,
-                expirationMonth: document.querySelector('input[name=card_month]').value,
-                expirationYear: document.querySelector('input[name=card_year]').value,
-                success: (response) => {
-                    processPayment(response.card.token);
-                }
-            });
-        });
-
-        function processPayment(token)
-        {
-            let data = {
-                card_token: token,
-                hash: PagSeguroDirectPayment.getSenderHash(),
-                installment: document.querySelector('select.select_installment').value,
-                card_name:  document.querySelector('input[name=card_name]').value,
-                _token: '{{csrf_token()}}'
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: '{{route("checkout.proccess")}}',
-                data: data,
-                dataType: 'json',
-                success: (response) => {
-                   //toastr.success(response.data.message, 'Sucesso')
-                   window.location.href = '{{route('checkout.thanks')}}?order=' + response.data.order;
-                }
-            });
-        }
-
-        function getInstallments(amount, brand) {
-            PagSeguroDirectPayment.getInstallments({
-                amount: amount,
-                brand: brand,
-                maxInstallmentNoInterest: 0,
-                success: (response) => {
-                    let selectInstallments = drawSelectInstallments(response.installments[brand]);
-                  
-                    document.querySelector('div.installments').innerHTML = selectInstallments;
-                },
-                error: (error) => {
-                    console.error(error);
-                },
-                complete: (response) => {
-                
-                }
-            });
-        }
-
-        function drawSelectInstallments(installments) {
-
-            let select = '<label>Opções de Parcelamento:</label>';
-
-            select += '<select class="form-control select_installment">';
-
-            for(let installment of installments) {
-                select += `<option value="${installment.quantity}|${installment.installmentAmount}">${installment.quantity}x de ${installment.installmentAmount} - Total fica ${installment.totalAmount}</option>`;
-            }
-
-            select += '</select>';
-
-            return select;
-        }
-    </script>
+    <script src="{{asset('js/pagseguro_functions.js')}}"></script>
+    <script src="{{asset('js/pagseguro_events.js')}}"></script>
 @endsection

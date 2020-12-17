@@ -9,7 +9,7 @@ class UserOrder extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['reference', 'pagseguro_status', 'pagseguro_code', 'store_id', 'items'];
+    protected $fillable = ['reference', 'pagseguro_status', 'pagseguro_code', 'items'];
 
     public function user()
     {
