@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <label>Telefone</label>
-            <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$store->phone}}">
+            <input type="text" id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$store->phone}}">
 
             @error('phone')
                 <div class="invalid-feedback">
@@ -38,7 +38,7 @@
         </div>
         <div class="form-group">
             <label>Celular/Whatsapp</label>
-            <input type="text" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone" value="{{$store->mobile_phone}}">
+            <input type="text" id="mobile_phone" class="form-control @error('mobile_phone') is-invalid @enderror" name="mobile_phone" value="{{$store->mobile_phone}}">
             
             @error('mobile_phone')
                 <div class="invalid-feedback">
@@ -65,4 +65,11 @@
             <button class="btn btn-lg btn-success" type="submit">Editar Loja</button>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous"></script>
+    <script>
+        $('#phone').mask('(00) 0000-0000');
+        $('#mobile_phone').mask('(00) 0 0000-0000');
+    </script>
 @endsection
