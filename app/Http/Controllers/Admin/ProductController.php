@@ -10,11 +10,13 @@ use App\Models\Product;
 use App\Models\Category;
 
 use App\Traits\UploadTrait;
+use App\Traits\FormatMoney;
 
 class ProductController extends Controller
 {
 
     use UploadTrait;
+    use FormatMoney;
 
     private $product;
 
@@ -30,8 +32,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = auth()->user()->store;
-        $products = $user->products()->paginate(10);
+        $user = auth()->user();
+
+        if(!$user->store()->exists()){
+            flash('É preciso criar uma loja para cadastrar produtos!')->warning();
+            return redirect()->route('admin.stores.index');
+        }
+        
+        $products = $user->store->products()->paginate(10);
 
         return view('admin.products.index', compact('products'));
     }
@@ -58,6 +66,9 @@ class ProductController extends Controller
     {
 
         $data = $request->all();
+              
+        $data['price'] = $this->formatMoney($data['price']);
+
         $categories = $request->get('categories', null);
 
         $store = auth()->user()->store;
@@ -99,6 +110,9 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $product)
     {
         $data = $request->all();
+        
+        $data['price'] = $this->formatMoney($data['price']);
+        
         $categories = $request->get('categories', null);
 
         $product = $this->product->find($product);

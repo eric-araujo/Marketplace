@@ -39,7 +39,7 @@
                 </div>
             @empty
                 <div class="alert alert-warning">
-                   Nenhum pedido recebido; 
+                   Nenhum pedido recebido 
                 </div>
             @endforelse
         </div>

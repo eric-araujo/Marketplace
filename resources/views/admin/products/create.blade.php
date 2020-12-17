@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <label>Preço</label>
-            <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}">
+            <input id="price" type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}">
 
             @error('price')
                 <div class="invalid-feedback">
@@ -67,4 +67,11 @@
             <button type="submit" class="btn btn-lg btn-success">Criar Produto</button>
         </div>
     </form>
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous"></script>
+    <script>
+        $('#price').mask('000.000.000,00', { reverse:true });
+    </script>
 @endsection
