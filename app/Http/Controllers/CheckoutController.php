@@ -15,25 +15,30 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        if (!auth()->check()) {
-            return redirect()->route('login');
+        try {
+            if (!auth()->check()) {
+                return redirect()->route('login');
+            }
+    
+            if(!session()->has('cart')){
+                return redirect()->route('home');
+            }
+    
+            $this->makePagSeguroSession();
+    
+            $total = 0;
+    
+            $cartItems = array_map(function ($line) {
+                return $line['amount'] * $line['price'];
+            }, session()->get('cart'));
+    
+            $total = array_sum($cartItems);
+    
+            return view('checkout', compact('total'));
+        } catch (\Throwable $th) {
+            session()->forget('pagseguro_session_code');
+            redirect()->route('checkout.index');
         }
-
-        if(!session()->has('cart')){
-            return redirect()->route('home');
-        }
-
-        $this->makePagSeguroSession();
-
-        $total = 0;
-
-        $cartItems = array_map(function ($line) {
-            return $line['amount'] * $line['price'];
-        }, session()->get('cart'));
-
-        $total = array_sum($cartItems);
-
-        return view('checkout', compact('total'));
     }
 
     public function proccess(Request $request)
