@@ -34,6 +34,12 @@ submitButton.addEventListener('click', (event) => {
         expirationYear: document.querySelector('input[name=card_year]').value,
         success: (response) => {
             processPayment(response.card.token);
+        },
+        error: (error) => {
+            console.log(error);
+            for(let erro in error.errors){
+                document.querySelector('div.msg').innerHTML = showErrorMessages(errorsMapPagSeguro(erro));
+            }
         }
     });
 });
