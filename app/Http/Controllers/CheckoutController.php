@@ -71,7 +71,7 @@ class CheckoutController extends Controller
                 ],
             ]);
         } catch (\Throwable $th) {
-            $message = env('APP_DEBUG') ? $th->getMessage() : 'Erro ao processar pedido!';
+            $message = env('APP_DEBUG') ? simplexml_load_string($th->getMessage()) : 'Erro ao processar pedido!';
             return response()->json([
                 'data' => [
                     'status' => false,
